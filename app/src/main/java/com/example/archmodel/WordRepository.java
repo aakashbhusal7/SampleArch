@@ -44,4 +44,55 @@ public class WordRepository {
             super.onPostExecute(s);
         }
     }
+
+    public void deleteAllWords(){
+        new deleteAsyncTask(wordDao).execute();
+    }
+    private static class deleteAsyncTask extends AsyncTask<Void,Void,Void>{
+        private WordDao wordDao;
+
+        deleteAsyncTask(WordDao wordDao){
+            this.wordDao=wordDao;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            wordDao.deleteAll();
+            return null;
+        }
+    }
+
+    public void updateWord(Word word){
+        new updateAsyncTask(wordDao).execute(word);
+    }
+    private static class updateAsyncTask extends AsyncTask<Word, Void, Void>{
+        private WordDao wordDao;
+
+        updateAsyncTask(WordDao wordDao){
+            this.wordDao=wordDao;
+        }
+
+        @Override
+        protected Void doInBackground(Word... words) {
+            wordDao.update(words[0]);
+            return null;
+        }
+    }
+    public void deleteWord(Word word){
+        new deleteSingleWordAsyncTask(wordDao).execute(word);
+    }
+    private static class deleteSingleWordAsyncTask extends AsyncTask<Word,Void,Void>{
+        private WordDao wordDao;
+
+        deleteSingleWordAsyncTask(WordDao wordDao){
+            this.wordDao=wordDao;
+        }
+
+        @Override
+        protected Void doInBackground( Word... words) {
+            wordDao.deleteWord(words[0]);
+            return null;
+        }
+    }
 }
+
